@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --white: #FFFFFF;
+    --black: #000;
+    --blue: #14213d;
+    --yellow: #fca311;
+    --gray: #E5E5E5;
+    --gray-dark: #C4C4C4;
+}
+
+body {
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+}
+
+body, input, textarea, button, h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+@media (max-width: 720px) {
+    html {
+        font-size: 87.5%;
+    }
+}
+
+header {
+    display: flex;
+    height: 25vh;
+    background: var(--blue);
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo {
+    font-size: 3.5rem;
+    color: var(--yellow);
+    margin-bottom: 2rem;
+}
+
+main {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    margin-top: -30px;
+    width: 50%;
+    max-width: 700px;
+    background: var(--gray);
+    height: 25rem;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 25px;
+}
+
+ul {
+    font-size: 1.2rem;
+    margin: 3rem auto 0;
+    width: 90%;
+
+    border-spacing: 0 2rem;
+}
+
+li {
+    margin: 1rem 0 1.5rem;
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+li p {
+    background: var(--gray-dark);
+
+    border-radius: 10px;
+    padding: 0.4rem 2rem;
+
+    width: 85%;
+
+    margin-right: 1.5rem;
+}
+
+button.delete-task {
+    border: none;
+    background: none;
+    
+    opacity: 0.5;
+}
+
+button.delete-task:hover {
+    opacity: 1;
+}
+
+button.new-task {
+    background: var(--yellow);
+    width: 90%;
+    height: 30px;
+    margin: .2rem auto 1rem;
+
+    border-radius: 25px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 200ms filter;
+}
+
+button.new-task:hover {
+    cursor: pointer;
+    filter: brightness(0.7);
+}
+
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    -webkit-appearance: none;
+
+    background: var(--gray-dark);
+    padding: 20px;
+    border-radius: 20px;
+    display: inline-block;
+	position: relative;
+}
+
+input:hover {
+    filter: brightness(0.9);
+}
+
+input:checked {
+    background: var(--yellow);
+
+}
+
+input:checked::after {
+    content: '\2714';
+    font-size: 33px;
+    position: absolute;
+	top: -2px;
+	left: 7px;
+
+	color: #000;
+}
