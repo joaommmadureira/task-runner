@@ -20,23 +20,10 @@
     </header>
     <main>
         <div class="content">
-            <ul>
-                <li>
-                    <input type="checkbox" id="cb1">
-                    <p>Arrumar a casa</p>
-                </li>
+            <ul id="list">
 
-                <li>
-                    <input type="checkbox" id="cb2">
-                    <p>Terminar o trabalho</p>
-                </li>
-
-                <li>
-                    <input type="checkbox" id="cb3">
-                    <p>Ir no mercado</p>
-                </li>
             </ul>
-            <button class="new-task">
+            <button class="new-task" onclick="createTask()">
                 <img src="/assets/plus.svg" alt="Nova task">
             </button>
         </div>
@@ -44,5 +31,6 @@
     <footer>
         <p class="contact">@joaommmadureira</p>
     </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
