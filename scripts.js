@@ -152,14 +152,47 @@ function editTask(id) {
 }
 
 function createTask() {
-    main.querySelector('button.new-task').remove();
-
     var newTask = document.createElement('li');
 
     newTask.innerHTML = '<form><input></input><input></input></form>';
 
-    task.querySelectorAll('input')[0].setAttribute('type', 'text');
-    task.querySelectorAll('input')[0].setAttribute('class', 'edit-name');
+    newTask.querySelectorAll('input')[0].setAttribute('type', 'text');
+    newTask.querySelectorAll('input')[0].setAttribute('class', 'edit-name');
+    newTask.querySelectorAll('input')[0].setAttribute('placeholder', `Digite a tarefa`);
 
+    newTask.querySelectorAll('input')[1].setAttribute('type', 'submit');
+    newTask.querySelectorAll('input')[1].setAttribute('value', 'Pronto');
+    newTask.querySelectorAll('input')[1].setAttribute('class', 'submit-name');
 
+    document.body.querySelector('button.new-task').remove();
+
+    console.log(newTask);
+
+    main.appendChild(newTask);
+
+    newTask.querySelector('form').addEventListener('submit', () => {
+        if (newTask.querySelector('input.edit-name').value == '') return;
+
+        const tasksUpdated = [...tasks];
+
+        tasksUpdated.push({
+            title: newTask.querySelector('input.edit-name').value,
+            done: false
+        })
+
+        tasks = tasksUpdated;
+
+        main.innerHTML = "";
+        gerarTasks(tasks);
+
+        var newTaskButton = document.createElement('button');
+
+        newTaskButton.innerHTML = '<img>'
+        newTaskButton.setAttribute('class', 'new-task');
+        newTaskButton.setAttribute('onclick', 'createTask()');
+        newTaskButton.querySelector('img').setAttribute('src', '/assets/plus.svg');
+        newTaskButton.querySelector('img').setAttribute('alt', 'Nova tarefa');
+
+        body.querySelector('div.content').appendChild(newTaskButton);
+    })
 }
