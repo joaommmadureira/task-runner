@@ -1,24 +1,16 @@
-var tasks = [
-    {
-        "title": "Arrumar a casa",
-        "done": true
-    },
-    {
-        "title": "oioioi",
-        "done": false
-    },
-    {
-        "title": "Ir no mercado",
-        "done": false
-    }
-];
+var tasks = [];
+const variables = {};
 
-var body = document.body;
-var main = document.getElementById('list')
+var main = document.getElementById('list');
 
-const variables = {}
+function welcomeText() {
+    var welcomeText = document.createElement('span');
+    welcomeText.innerHTML = `Clique no butão para começar a adicionar tarefas!`;
+    welcomeText.setAttribute('class', 'welcome-text');
+    main.appendChild(welcomeText);
+}
 
-body.addEventListener('load', gerarTasks(tasks))
+welcomeText();
 
 function gerarTasks(tasks) {
     var i = 0;
@@ -58,10 +50,8 @@ function gerarTasks(tasks) {
         i++;
     })
 
-    return refreshTasks();
+    refreshTasks();
 }
-
-
 
 function refreshTasks() {
     variables.task = document.querySelectorAll("li");
@@ -107,6 +97,8 @@ function hidePencil(i) {
 function deletarTask(id) {
     const tasksUpdated = [...tasks];
 
+    if(!document.body.querySelector('button.new-task')) return;
+
     const taskIndex = tasksUpdated.findIndex( tasksUpdated => tasksUpdated.id === id);
 
     tasksUpdated.splice(taskIndex, 1);
@@ -114,14 +106,25 @@ function deletarTask(id) {
     tasks = tasksUpdated;
 
     main.innerHTML = "";
-    gerarTasks(tasks);
+    if(tasks.length > 0) gerarTasks(tasks);
+    else welcomeText();
 }
 
 function editTask(id) {
+    const task = document.querySelectorAll('li')[id];
+
+    if (document.body.querySelector('form')) {
+    //     const notification = document.createElement('span');
+
+    //     notification.setAttribute('class', 'notification-message');
+    //     notification.innerText = 'Termine de criar a task antes de editar outra.'
+    //     task.appendChild(notification);
+
+         return;
+    };
 
     const taskUpdated = tasks.find( task => task.id === id);
 
-    const task = document.querySelectorAll('li')[id];
     task.querySelector('p').remove();
 
     task.innerHTML = `<input></input><form><input></input><input></input></form>`;
@@ -131,27 +134,34 @@ function editTask(id) {
     task.querySelector(`input.input${id}`).setAttribute('onclick', `marcarFeito(${id})`);
     taskUpdated.done === true ? task.querySelector('input').setAttribute('checked', true) : '';
 
+    task.querySelectorAll('input')[1].setAttribute('type', 'text');
+    task.querySelectorAll('input')[1].setAttribute('class', 'edit-name');
+    task.querySelectorAll('input')[1].setAttribute('placeholder', `${taskUpdated.title}`);
+
+    task.querySelectorAll('input')[2].setAttribute('type', 'submit');
+    task.querySelectorAll('input')[2].setAttribute('value', 'OK');
+    task.querySelectorAll('input')[2].setAttribute('class', 'submit-name');
+
+    console.log(task);
+
     task.querySelector('form').addEventListener('submit', () => {
-        if (task.querySelector('input.edit-name').value == '') return;
+        if (task.querySelector('input.edit-name').value == '') {
+            console.log(tasks);
+            main.innerHTML = "";
+            gerarTasks(tasks);
+            return;
+        }
 
         taskUpdated.title = task.querySelector('input.edit-name').value;
 
         main.innerHTML = "";
         gerarTasks(tasks);
     })
-
-    task.querySelectorAll('input')[1].setAttribute('type', 'text');
-    task.querySelectorAll('input')[1].setAttribute('class', 'edit-name');
-    task.querySelectorAll('input')[1].setAttribute('placeholder', `${taskUpdated.title}`);
-
-    task.querySelectorAll('input')[2].setAttribute('type', 'submit');
-    task.querySelectorAll('input')[2].setAttribute('value', 'Pronto');
-    task.querySelectorAll('input')[2].setAttribute('class', 'submit-name');
-
-    console.log(task);
 }
 
 function createTask() {
+    if (document.body.querySelector('form')) return;
+
     var newTask = document.createElement('li');
 
     newTask.innerHTML = '<form><input></input><input></input></form>';
@@ -161,29 +171,32 @@ function createTask() {
     newTask.querySelectorAll('input')[0].setAttribute('placeholder', `Digite a tarefa`);
 
     newTask.querySelectorAll('input')[1].setAttribute('type', 'submit');
-    newTask.querySelectorAll('input')[1].setAttribute('value', 'Pronto');
+    newTask.querySelectorAll('input')[1].setAttribute('value', 'OK');
     newTask.querySelectorAll('input')[1].setAttribute('class', 'submit-name');
 
     document.body.querySelector('button.new-task').remove();
 
     console.log(newTask);
-
     main.appendChild(newTask);
 
     newTask.querySelector('form').addEventListener('submit', () => {
-        if (newTask.querySelector('input.edit-name').value == '') return;
+        if (!newTask.querySelector('input.edit-name').value) {
+            main.innerHTML = "";
+            gerarTasks(tasks);
+            
+        } else {        
+            const tasksUpdated = [...tasks];
 
-        const tasksUpdated = [...tasks];
+            tasksUpdated.push({
+                title: newTask.querySelector('input.edit-name').value,
+                done: false
+            })
 
-        tasksUpdated.push({
-            title: newTask.querySelector('input.edit-name').value,
-            done: false
-        })
+            tasks = tasksUpdated;
 
-        tasks = tasksUpdated;
-
-        main.innerHTML = "";
-        gerarTasks(tasks);
+            main.innerHTML = "";
+            gerarTasks(tasks);
+        }
 
         var newTaskButton = document.createElement('button');
 
@@ -193,6 +206,6 @@ function createTask() {
         newTaskButton.querySelector('img').setAttribute('src', '/assets/plus.svg');
         newTaskButton.querySelector('img').setAttribute('alt', 'Nova tarefa');
 
-        body.querySelector('div.content').appendChild(newTaskButton);
+        document.body.querySelector('div.content').appendChild(newTaskButton);
     })
 }

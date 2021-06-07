@@ -229,3 +229,11 @@ button.new-task {
 
     transition: 200ms filter;
 }
+
+span.welcome-text {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 1rem;
+
+    text-align: center;
+}
