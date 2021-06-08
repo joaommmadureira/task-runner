@@ -45,7 +45,6 @@ function gerarTasks(tasks) {
         task.querySelectorAll('img')[0].setAttribute('src', "assets/pen.svg");
         task.querySelectorAll('img')[1].setAttribute('src', "assets/trash.svg");
 
-        console.log(task);
         main.appendChild(task);
         i++;
     })
@@ -114,13 +113,15 @@ function editTask(id) {
     const task = document.querySelectorAll('li')[id];
 
     if (document.body.querySelector('form')) {
-    //     const notification = document.createElement('span');
+        if(!document.body.querySelector('p.notification')) {
+            const notification = document.createElement('p');
 
-    //     notification.setAttribute('class', 'notification-message');
-    //     notification.innerText = 'Termine de criar a task antes de editar outra.'
-    //     task.appendChild(notification);
+            notification.innerText = 'Termine de editar ou criar a task antes de tentar editar outra.'
+            notification.setAttribute('class', 'notification');
+            main.append(notification);
+        }
 
-         return;
+        return;
     };
 
     const taskUpdated = tasks.find( task => task.id === id);
@@ -142,11 +143,10 @@ function editTask(id) {
     task.querySelectorAll('input')[2].setAttribute('value', 'OK');
     task.querySelectorAll('input')[2].setAttribute('class', 'submit-name');
 
-    console.log(task);
-
-    task.querySelector('form').addEventListener('submit', () => {
+    task.querySelector('form').addEventListener('submit', updateName)
+    
+    function updateName() {
         if (task.querySelector('input.edit-name').value == '') {
-            console.log(tasks);
             main.innerHTML = "";
             gerarTasks(tasks);
             return;
@@ -156,11 +156,21 @@ function editTask(id) {
 
         main.innerHTML = "";
         gerarTasks(tasks);
-    })
+    }
 }
 
 function createTask() {
-    if (document.body.querySelector('form')) return;
+    if (document.body.querySelector('form')) {
+        if(!document.body.querySelector('p.notification')) {
+            const notification = document.createElement('p');
+
+            notification.innerText = 'Termine de editar ou criar a task antes de tentar criar outra.'
+            notification.setAttribute('class', 'notification');
+            main.append(notification);
+        }
+
+        return;
+    };
 
     var newTask = document.createElement('li');
 
@@ -176,15 +186,16 @@ function createTask() {
 
     document.body.querySelector('button.new-task').remove();
 
-    console.log(newTask);
     main.appendChild(newTask);
 
-    newTask.querySelector('form').addEventListener('submit', () => {
+    newTask.querySelector('form').addEventListener('submit', test)
+
+    function test() {
         if (!newTask.querySelector('input.edit-name').value) {
             main.innerHTML = "";
             gerarTasks(tasks);
-            
-        } else {        
+
+        } else {
             const tasksUpdated = [...tasks];
 
             tasksUpdated.push({
@@ -207,5 +218,5 @@ function createTask() {
         newTaskButton.querySelector('img').setAttribute('alt', 'Nova tarefa');
 
         document.body.querySelector('div.content').appendChild(newTaskButton);
-    })
+    }
 }
