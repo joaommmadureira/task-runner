@@ -214,7 +214,7 @@ function createTask() {
         newTaskButton.innerHTML = '<img>'
         newTaskButton.setAttribute('class', 'new-task');
         newTaskButton.setAttribute('onclick', 'createTask()');
-        newTaskButton.querySelector('img').setAttribute('src', '/assets/plus.svg');
+        newTaskButton.querySelector('img').setAttribute('src', 'assets/plus.svg');
         newTaskButton.querySelector('img').setAttribute('alt', 'Nova tarefa');
 
         document.body.querySelector('div.content').appendChild(newTaskButton);
