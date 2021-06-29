@@ -5,7 +5,7 @@ var main = document.getElementById('list');
 
 function welcomeText() {
     var welcomeText = document.createElement('span');
-    welcomeText.innerHTML = `Clique no butão para começar a adicionar tarefas!`;
+    welcomeText.innerHTML = `Clique no botão para começar a adicionar tarefas!`;
     welcomeText.setAttribute('class', 'welcome-text');
     main.appendChild(welcomeText);
 }
